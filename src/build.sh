@@ -17,7 +17,9 @@ current_dir="$PWD"
 echo $DISTRO > .distro_zab.txt
 bash /tmp/linux-on-ibm-z-scripts/Beats/${version}/build_beats.sh -y
 # Package beats
-export PATH=$PATH:/usr/local/go/bin
+GO_VERSION=`awk -F'=' '/^GO_VERSION/{gsub(/^[ \t]+|[ \t]+$/, "", $2); print $2}' /tmp/linux-on-ibm-z-scripts/Beats/${version}/build_beats.sh`
+export GOROOT="/usr/local/go-${GO_VERSION}"
+export PATH="$GOROOT/bin:$PATH"
 export GOPATH=$(go env GOPATH)
 cd $GOPATH/src/github.com/elastic/beats
 # Filebeat
